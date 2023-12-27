@@ -1,0 +1,11 @@
+<launch>
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro --inorder '$(find autolabor_description)/urdf/autolabor_pro1.urdf'" />
+
+  <!-- Run the robot_state_publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Launch RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autolabor_description)/launch/urdf.rviz" required="true"/>
+</launch>

@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="ltme_node" type="ltme_node" name="ltme_node" output="screen">
+    <param name="device_model" value="LT-R1"/>
+
+    <!-- IP address of LT-R1 -->
+    <param name="device_address" value="192.168.10.160"/>
+  </node>
+</launch>
