@@ -49,4 +49,5 @@ TRAJECTORY_BUILDER_2D.voxel_filter_size = 0.1
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
 TRAJECTORY_BUILDER_2D.submaps.num_range_data = 30
 
+
 return options
