@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source source devel_isolated/setup.bash
+roscd slam_2d/map/
+
+filename_suffix=`date "+%Y%m%d%H%M%S"`
+if [ -e "map.pbstream" ];then
+    mv map.pbstream map$filename_suffix.pbstream
+fi
+
+rosservice call /finish_trajectory 0
+# rosservice call /write_state "filename: '/home/sam/space/cartographer_ws/src/launch/slam_2d/map/map.pbstream'"
+rosservice call /write_state "filename: '$(pwd)/map.pbstream'"
+
+killall rosmaster
