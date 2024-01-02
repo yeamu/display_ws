@@ -177,7 +177,7 @@ no_inner_iterations: 5
 no_outer_iterations: 4
 
 # Add a small safety margin to penalty functions for hard-constraint approximations (double, default: 0.1)
-penalty_epsilon: 0.1
+penalty_epsilon: 0.01
 
 # Optimization weight for satisfying the maximum allowed translational velocity (double, default: 2.0)
 weight_max_vel_x: 2.0
@@ -268,7 +268,7 @@ switching_blocking_period: 0.0
 # Miscellaneous Parameters
 #=========================
 # Topic name of the odometry message, provided by the robot driver or simulator. (string, default: "odom")
-odom_topic: odom
+odom_topic: wheel_odom
 
 # Global planning frame (in case of a static map, this parameter must be usually changed to "/map" (string, default: "odom")
 map_frame: map

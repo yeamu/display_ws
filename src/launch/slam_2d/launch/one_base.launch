@@ -1,6 +1,6 @@
 <launch>
 
-	<!-- <arg name="robot_pub_tf" default="false" /> -->
+	<arg name="robot_pub_tf" default="false" />
 
 	<param name="robot_description"
          command="$(find xacro)/xacro --inorder '$(find autolabor_description)/urdf/autolabor_pro1.urdf'" />
@@ -23,6 +23,7 @@
       <param name="model_param_acw" value="0.80" />
       <param name="pid_rate" value="50.0" />
       <param name="maximum_encoding" value="32.0" />
+	  <!-- <remap from="odom" to="wheel_odom"/> -->
     </node>
 
 	<!-- 雷达驱动 -->

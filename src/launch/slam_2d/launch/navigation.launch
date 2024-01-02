@@ -1,7 +1,7 @@
 <launch>
 
 	<include file="$(find slam_2d)/launch/one_base.launch">
-		  <!-- <arg name="robot_pub_tf" value="false"/> -->
+		  <arg name="robot_pub_tf" value="false"/>
 	</include>
 
 	<!-- 定位模块 -->
@@ -9,8 +9,11 @@
 		type="cartographer_node" args="
 			-configuration_directory $(find slam_2d)/params/cartographer
 			-configuration_basename mapping.lua
-			-load_state_filename $(find slam_2d)/map/mapping.yaml"
+			-load_state_filename $(find slam_2d)/map/map.pbstream"
 		output="screen">
+		<remap from="odom" to="wheel_odom"/>
+		<param name="tf_buffer_duration" type="double" value="10.0" />
+
 	</node>
 
 	<node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" 
@@ -27,6 +30,7 @@
 
 	<!-- 导航模块 -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+		<param name="GlobalPlanner/global_frame_id" value="map"/> 
 		<rosparam file="$(find slam_2d)/params/navigation/navigation_move_base.yaml" command="load" />
 		<rosparam file="$(find slam_2d)/params/navigation/one_laser_global_costmap_params.yaml" command="load" ns="global_costmap"/>
 		<rosparam file="$(find slam_2d)/params/navigation/one_laser_local_costmap_params.yaml" command="load" ns="local_costmap"/>
@@ -34,7 +38,7 @@
 		<rosparam file="$(find slam_2d)/params/navigation/navigation_teb_local_planner_params.yaml" command="load" ns="TebLocalPlannerROS"/>
 	</node>
 
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_2d)/rviz/.rviz" />
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_2d)/rviz/nav.rviz" />
 
-
+1
 </launch>
