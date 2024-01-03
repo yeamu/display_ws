@@ -5,43 +5,43 @@ recovery_behaviors:
   #- {name: rotate_recovery, type: rotate_recovery/RotateRecovery} 
   - {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}
 
-# The rate in Hz at which to run the global planning loop. If the frequency is set to 0.0, the global planner will only run when a new goal is received or the local planner reports that its path is blocked.(double, default: 0.0)
+# 运行全局规划循环的频率（赫兹）。如果频率设置为0.0，全局规划器仅在接收到新目标或本地规划器报告路径被阻塞时才运行。(双精度型, 默认: 0.0)
 planner_frequency: 0.0
 
-# The rate in Hz at which to run the control loop and send velocity commands to the base.(double, default: 20.0)
-controller_frequency: 5.0
+# 运行控制循环并向底盘发送速度指令的频率（赫兹）。(双精度型, 默认: 20.0)
+controller_frequency: 20.0
 
-# How long the planner will wait in seconds in an attempt to find a valid plan before space-clearing operations are performed.(double, default: 5.0)
+# 在尝试找到有效路径之前，规划器等待的时间（秒）。(双精度型, 默认: 5.0)
 planner_patience: 5.0
 
-# How long the controller will wait in seconds without receiving a valid control before space-clearing operations are performed.(double, default: 15.0)
-controller_patience: 99999.0
+# 在没有收到有效控制指令的情况下等待的时间（秒），然后执行空间清理操作。(双精度型, 默认: 15.0)
+controller_patience: 30.0
 
-# Whether or not to enable the move_base recovery behaviors to attempt to clear out space.(bool, default: true)
+# 是否启用move_base的恢复行为以尝试清除空间。(布尔型, 默认: true)
 recovery_behavior_enabled: true
 
-# Determines whether or not the robot will attempt an in-place rotation when attempting to clear out space. Note: This parameter is only used when the default recovery behaviors are in use, meaning the user has not set the recovery_behaviors parameter to anything custom.(bool, default: true)
+# 确定在尝试清除空间时机器人是否会尝试原地旋转。注意：此参数仅在使用默认恢复行为时使用，即用户未将recovery_behaviors参数设置为任何自定义值。(布尔型, 默认: true)
 clearing_rotation_allowed: false
 
-# Determines whether or not to shutdown the costmaps of the node when move_base is in an inactive state (bool, default: false)
+# 确定在move_base处于非活动状态时是否关闭节点的costmaps。(布尔型, 默认: false)
 shutdown_costmaps: false
 
-# How long in seconds to allow for oscillation before executing recovery behaviors. A value of 0.0 corresponds to an infinite timeout. (double, default: 0.0)
+# 在执行恢复行为之前允许的振荡时间（秒）。值为0.0对应于无限超时。(双精度型, 默认: 0.0)
 oscillation_timeout: 0.0
 
-# How far in meters the robot must move to be considered not to be oscillating. Moving this far resets the timer counting up to the ~oscillation_timeout (double, default: 0.5)
+# 机器人必须移动多远（以米为单位）才被认为不是在振荡。移动这么远将重置计时器，开始计算oscillation_timeout。(双精度型, 默认: 0.5)
 oscillation_distance: 0.3
 
-# How many times to allow for planning retries before executing recovery behaviors. A value of -1.0 corresponds to an infinite retries.(int32_t, default: -1)
+# 在执行恢复行为之前允许的规划重试次数。值为-1.0对应于无限次重试。(整型, 默认: -1)
 #max_planning_retries: -1
 
 #############################
-# plug for recovery_behaviors
+# 恢复行为的参数
 #############################
 conservative_reset:
-# The radius away from the robot in meters outside which obstacles will be removed from the costmaps when they are reverted to the static map.
-    reset_distance: 1.0
+  # 机器人外围多少米的半径范围内的障碍物将从costmaps中移除，当它们被还原到静态地图时。
+  reset_distance: 0.5
 
 aggressive_reset:
-# The radius away from the robot in meters outside which obstacles will be removed from the costmaps when they are reverted to the static map.
-    reset_distance: 0.0
+  # 机器人外围多少米的半径范围内的障碍物将从costmaps中移除，当它们被还原到静态地图时。
+  reset_distance: 0.0

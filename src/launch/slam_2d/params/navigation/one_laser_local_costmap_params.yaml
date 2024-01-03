@@ -1,52 +1,52 @@
 # ns : local_costmap
 
-# The global frame for the costmap to operate in. (string, default: "/map")
-global_frame: odom
+# costmap操作的全局帧 (字符串, 默认值: "/map")
+global_frame: map
 
-# The name of the frame for the base link of the robot.(string, default: "base_link")
+# 机器人基座链接的坐标系名称 (字符串, 默认值: "base_link")
 robot_base_frame: base_link
 
-# distance a circular robot should be clear of the obstacle (kobuki: 0.18)
-#robot_radius: 0.20  
-footprint: [[0.37, 0.31], [0.37, -0.31], [-0.37, -0.31], [-0.37, 0.31]]  # if the robot is not circular
+# 一个圆形机器人应远离障碍物的距离 (kobuki: 0.18)
+# robot_radius: 0.20
+footprint: [[0.37, 0.31], [0.37, -0.31], [-0.37, -0.31], [-0.37, 0.31]]  # 如果机器人不是圆形
 
-# used for obstacle_layer, 3D->voxel 2D->other
+# 用于obstacle_layer, 3D->voxel 2D->other
 # map_type: costmap
 
-# Specifies the delay in transform (tf) data that is tolerable in seconds. This parameter serves as a safeguard to losing a link in the tf tree while still allowing an amount of latency the user is comfortable with to exist in the system. For example, a transform being 0.2 seconds out-of-date may be tolerable, but a transform being 8 seconds out of date is not. If the tf transform between the coordinate frames specified by the global_frame and robot_base_frame parameters is transform_tolerance seconds older than ros::Time::now(), then the navigation stack will stop the robot.(double, default: 0.2)
+# 容忍的变换（tf）数据的延迟，单位为秒。该参数作为系统中可能失去tf树中的链接的保障，同时仍然允许用户在系统中存在一定程度的延迟。例如，一个变换超过0.2秒的时间可能是可以接受的，但8秒的时间不是。如果由global_frame和robot_base_frame参数指定的坐标框之间的tf变换比ros::Time::now()老transform_tolerance秒，则导航堆栈将停止机器人。(双精度型, 默认值: 0.2)
 transform_tolerance: 0.5
 
-# The frequency in Hz for the map to be updated.(double, default: 5.0)
+# 地图更新的频率（赫兹） (双精度型, 默认值: 5.0)
 update_frequency: 5.0
 
-# The frequency in Hz for the map to be publish display information.(double, default: 0.0)
+# 发布显示信息的地图的频率（赫兹） (双精度型, 默认值: 0.0)
 publish_frequency: 1.0
 
-# Whether or not to use a rolling window version of the costmap. If the static_map parameter is set to true, this parameter must be set to false. (bool, default: false)
+# 是否使用costmap的滚动窗口版本。如果static_map参数设置为true，则此参数必须设置为false。(布尔型, 默认值: false)
 rolling_window: true
 # static_map: false
 
-# If true the full costmap is published to "~<name>/grid" every update. If false only the part of the costmap that has changed is published on the "~<name>/grid_updates" topic. (bool, default: false)
+# 如果为true，则每次更新都将完整的costmap发布到"~<name>/grid"。如果为false，仅将costmap的已更改部分发布到"~<name>/grid_updates"主题。(布尔型, 默认值: false)
 always_send_full_costmap: false
 
-# Sequence of plugin specifications, one per layer. Each specification is a dictionary with name and type fields. The name is used to define the parameter namespace for the plugin.
+# 插件规范的序列，每个图层一个。每个规范都是一个带有name和type字段的字典。name用于定义插件的参数命名空间。
 plugins:
   - {name: obstacle_layer,          type: "costmap_2d::ObstacleLayer"}
   - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
 
-# The width of the map in meters.(int, default: 10)
+# 地图的宽度，以米为单位。(整型, 默认值: 10)
 width: 5.0
 
-# The height of the map in meters.(int, default: 10)
+# 地图的高度，以米为单位。(整型, 默认值: 10)
 height: 5.0
 
-# The resolution of the map in meters/cell. (double, default: 0.05)
+# 地图的分辨率，以米/单元为单位。(双精度型, 默认值: 0.05)
 resolution: 0.1
 
-# The x origin of the map in the global frame in meters. (double, default: 0.0)
+# 地图在全局坐标系中的x起点，以米为单位。(双精度型, 默认值: 0.0)
 origin_x: 0.0
 
-# The y origin of the map in the global frame in meters. (double, default: 0.0)
+# 地图在全局坐标系中的y起点，以米为单位。(双精度型, 默认值: 0.0)
 origin_y: 0.0
 
 #############################
@@ -55,10 +55,11 @@ origin_y: 0.0
 #
 #############################
 inflation_layer:
-# The radius in meters to which the map inflates obstacle cost values. (double, default: 0.55)
+# 地图膨胀障碍物成本值的半径，以米为单位。(双精度型, 默认值: 0.55)
   inflation_radius: 0.20
 
-# A scaling factor to apply to cost values during inflation. The cost function is computed as follows for all cells in the costmap further than the inscribed radius distance and closer than the inflation radius distance away from an actual obstacle: exp(-1.0 * cost_scaling_factor * (distance_from_obstacle - inscribed_radius)) * (costmap_2d::INSCRIBED_INFLATED_OBSTACLE - 1), where costmap_2d::INSCRIBED_INFLATED_OBSTACLE is currently 254. NOTE: since the cost_scaling_factor is multiplied by a negative in the formula, increasing the factor will decrease the resulting cost values. (double, default: 10.0)
+# 在膨胀期间应用于成本值的缩放因子。成本函数如下计算，对于所有距离实际障碍物的插入半径之外但离充气半径距离更近的costmap单元：exp(-1.0 * cost_scaling_factor * (distance_from_obstacle - inscribed_radius)) * (costmap_2d::INSCRIBED_INFLATED_OBSTACLE - 1)，其中costmap_2d::INSCRIBED_INFLATED_OBSTACLE目前为254。注意：由于cost_scaling_factor在
+# 用于在膨胀过程中应用于成本值的缩放因子。成本函数如下计算，对于距实际障碍物的边界距离超过内接半径距离且距膨胀半径距离较近的成本图中的所有单元格：exp(-1.0 * cost_scaling_factor * (distance_from_obstacle - inscribed_radius)) * (costmap_2d::INSCRIBED_INFLATED_OBSTACLE - 1)，其中 costmap_2d::INSCRIBED_INFLATED_OBSTACLE 当前为 254。注意：由于 cost_scaling_factor 在公式中与负数相乘，增加该因子将减小结果成本值。 (双精度型，默认值：10.0)
   cost_scaling_factor: 10.0
 
 #############################
@@ -67,42 +68,41 @@ inflation_layer:
 #
 #############################
 obstacle_layer:
-# The maximum height of any obstacle to be inserted into the costmap in meters. This parameter should be set to be slightly higher than the height of your robot. (double, default: 2.0)
+# 插入成本图中的障碍物的最大高度，以米为单位。此参数应设置为略高于机器人的高度。 (双精度型，默认值：2.0)
   max_obstacle_height: 2.0
-# The default maximum distance from the robot at which an obstacle will be inserted into the cost map in meters. This can be over-ridden on a per-sensor basis. (double, default: 2.5)
-  obstacle_range: 3.0
-# The default range in meters at which to raytrace out obstacles from the map using sensor data. This can be over-ridden on a per-sensor basis. (double, default: 3.0)
-  raytrace_range: 4.0
-# If false, each pixel has one of 2 states: lethal obstacle or free. If true, each pixel has one of 3 states: lethal obstacle, free, or unknown.  (bool, default: false)
+# 障碍物将插入成本图中的默认最大距离，以米为单位。这可以在每个传感器上进行覆盖。 (双精度型，默认值：2.5)
+  obstacle_range: 2.5
+# 从地图上用传感器数据光线跟踪障碍物的默认范围，以米为单位。这可以在每个传感器上进行覆盖。 (双精度型，默认值：3.0)
+  raytrace_range: 3.0
+# 如果为false，每个像素只有2个状态：致命障碍或自由。如果为true，每个像素有3个状态：致命障碍，自由或未知。 (布尔型，默认值：false)
   track_unknown_space: false
-# If true, the robot footprint will clear (mark as free) the space in which it travels. (bool, default: true)
+# 如果为true，机器人足迹将清除（标记为自由）其行进的空间。 (布尔型，默认值：true)
   footprint_clearing_enabled: true
-# A list of observation source names separated by spaces. This defines each of the <source_name> namespaces defined below. (string, default: "")
+# 由空格分隔的观测源名称列表。这定义了下面每个<source_name>命名空间的内容。 (字符串型，默认值："")
   observation_sources: scan
   
   scan:
-# The topic on which sensor data comes in for this source. Defaults to the name of the source. (string, default: source_name)
+# 此源的传感器数据输入的主题。默认为源的名称。 (字符串型，默认值：source_name)
     topic: scan
-# The frame of the origin of the sensor. Leave empty to attempt to read the frame from sensor data. The frame can be read from both sensor_msgs/LaserScan, sensor_msgs/PointCloud, and sensor_msgs/PointCloud2 messages. (string, default: "")
+# 传感器原点的框架。留空以尝试从传感器数据中读取框架。该框架可以从sensor_msgs/LaserScan、sensor_msgs/PointCloud和sensor_msgs/PointCloud2消息中读取。 (字符串型，默认值："")
     sensor_frame: ""
-# How long to keep each sensor reading in seconds. A value of 0.0 will only keep the most recent reading. (double, default: 0.0)
+# 每个传感器读数保持的时间，以秒为单位。值为0.0将只保留最新的读数。 (双精度型，默认值：0.0)
     observation_persistence: 0.0
-# How often to expect a reading from a sensor in seconds. A value of 0.0 will allow infinite time between readings. This parameter is used as a failsafe to keep the navigation stack from commanding the robot when a sensor has failed. It should be set to a value that is slightly more permissive than the actual rate of the sensor. For example, if we expect a scan from a laser every 0.05 seconds we might set this parameter to be 0.1 seconds to give a generous buffer and account for some amount of system latency. (double, default: 0.0)
+# 从传感器中期望的读数频率，以秒为单位。值为0.0将允许在读数之间有无限的时间。此参数用作容错，以防导航栈在传感器失败时命令机器人。它应设置为略大于传感器的实际速率的值。例如，如果我们希望从激光器中每隔0.05秒获得一次扫描，我们可能会将此参数设置为0.1秒，以提供宽松的缓冲区并考虑一定量的系统延迟。 (双精度型，默认值：0.0)
     expected_update_rate: 0.0
-# The data type associated with the topic, right now only "PointCloud", "PointCloud2", and "LaserScan" are supported. (string, default: "PointCloud")
+# 与主题关联的数据类型，现在只支持 "PointCloud"、"PointCloud2" 和 "LaserScan"。 (字符串型，默认值："LaserScan")
     data_type: LaserScan
-# Whether or not this observation should be used to clear out freespace.  (bool, default: false)
+# 是否应使用此观测来清除自由空间。 (布尔型，默认值：false)
     clearing: true
-# Whether or not this observation should be used to mark obstacles. (bool, default: true)
+# 是否应使用此观测来标记障碍物。 (布尔型，默认值：true)
     marking: true
-# The maximum height in meters of a sensor reading considered valid. This is usually set to be slightly higher than the height of the robot. Setting this parameter to a value greater than the global max_obstacle_height parameter has no effect. Setting this parameter to a value less than the global max_obstacle_height will filter out points from this sensor above that height.(double, default: 2.0)
+# 传感器读数被视为有效的最大高度，以米为单位。通常设置为略高于机器人的高度。将此参数设置为大于全局 max_obstacle_height 参数的值将不起作用。将此参数设置为小于全局 max_obstacle_height 的值将过滤掉此传感器上方的点。 (双精度型，默认值：2.0)
     max_obstacle_height: 2.0
-# The minimum height in meters of a sensor reading considered valid. This is usually set to be at ground height, but can be set higher or lower based on the noise model of your sensor. (double, default: 0.0)
+# 传感器读数被视为有效的最小高度，以米为单位。通常设置为地面高度，但可以根据传感器的噪声模型设置得更高或更低。 (双精度型，默认值：0.0)
     min_obstacle_height: 0.0
-# The maximum range in meters at which to insert obstacles into the costmap using sensor data.  (double, default: 2.5)
-    obstacle_range: 3.0
-# The maximum range in meters at which to raytrace out obstacles from the map using sensor data.  (double, default: 3.0)
-    raytrace_range: 4.0
-# Allows for Inf values in "LaserScan" observation messages. The Inf values are converted to the laser maximum range.  (bool, default: false)
-    inf_is_valid: true
-
+# 将障碍物插入成本图的最大范围，以米为单位，使用传感器数据。  (双精度型，默认值：2.5)
+    obstacle_range: 2.5
+# 使用传感器数据从地图中光线跟踪障碍物的最大范围，以米为单位。  (双精度型，默认值：3.0)
+    raytrace_range: .03
+# 允许 "LaserScan" 观测消息中的 Inf 值。将 Inf 值转换为激光的最大范围。  (布尔型，默认值：false)
+    inf_is_valid: false

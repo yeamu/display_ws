@@ -1,22 +1,22 @@
 # ns : GlobalPlanner
 
-# Specifies whether or not to allow the planner to create plans that traverse unknown space. NOTE: if you are using a layered costmap_2d costmap with a voxel or obstacle layer, you must also set the track_unknown_space param for that layer to be true, or it will convert all your unknown space to free space (which planner will then happily go right through). (bool, default: true)
+# 是否允许规划器创建穿越未知空间的路径。注意：如果您使用了带有体素或障碍物层的分层costmap_2d costmap，您还必须将该层的track_unknown_space参数设置为true，否则它将把所有未知空间转换为自由空间（然后规划器将直接穿过）。 (布尔型, 默认: true)
 allow_unknown: true
 
-# A tolerance on the goal point for the planner. The planner will attempt to create a plan that is as close to the specified goal as possible but no further than default_tolerance away. (double, default: 0.0)
+# 规划器对目标点的容差。规划器将尝试创建一个离指定目标点尽可能近但不超过default_tolerance的路径。 (双精度型, 默认: 0.0)
 default_tolerance: 0.0
 
-# Specifies whether or not to visualize the potential area computed via a PointCloud2. (bool, default: false)
+# 是否可视化通过PointCloud2计算的潜在区域。 (布尔型, 默认: false)
 visualize_potential: false
 
-# If true, use dijkstra's algorithm. Otherwise, A*. (bool, default: true)
+# 如果为true，使用Dijkstra算法。否则，使用A*算法。 (布尔型, 默认: true)
 use_dijkstra: true
 
-# If true, use the quadratic approximation of the potential. Otherwise, use a simpler calculation. (bool, default: true)
+# 如果为true，使用潜在区域的二次近似。否则，使用一个更简单的计算方法。 (布尔型, 默认: true)
 use_quadratic: true
 
-# If true, create a path that follows the grid boundaries. Otherwise, use a gradient descent method. (bool, default: false)
+# 如果为true，创建一个沿着网格边界的路径。否则，使用梯度下降方法。 (布尔型, 默认: false)
 use_grid_path: false
 
-# If for some reason, you want global_planner to exactly mirror the behavior of navfn, set this to true (and use the defaults for the other boolean parameters) (bool, default: false)
+# 如果出于某种原因，您希望global_planner精确复制navfn的行为，请将其设置为true（并使用其他布尔参数的默认值） (布尔型, 默认: false)
 old_navfn_behavior: false
