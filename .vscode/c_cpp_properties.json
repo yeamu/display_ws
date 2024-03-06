@@ -1,0 +1,31 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/sam/space/cartographer_ws/devel_isolated/teb_local_planner/include/**",
+        "/home/sam/space/cartographer_ws/devel_isolated/ltme_node/include/**",
+        "/home/sam/space/cartographer_ws/devel_isolated/cartographer_ros_msgs/include/**",
+        "/home/sam/space/cartographer_ws/devel_isolated/autolabor_pro1_driver/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/sam/space/cartographer_ws/devel_isolated/cartographer/include/**",
+        "/home/sam/space/cartographer_ws/src/driver/autolabor_keyboard_control/include/**",
+        "/home/sam/space/cartographer_ws/src/mapping/cartographer_initialpose/include/**",
+        "/home/sam/space/cartographer_ws/src/driver/ltme_node/include/**",
+        "/home/sam/space/cartographer_ws/src/launch/move_pkg/include/**",
+        "/home/sam/space/cartographer_ws/src/mapping/teb_local_planner/include/**",
+        "/home/sam/space/cartographer_ws/src/wpr_simulation/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
