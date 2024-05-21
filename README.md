@@ -1,5 +1,5 @@
 ## 构建编译
-`` atkin_make_isolated ``
+`` catkin_make_isolated ``
 ## 启动底盘
 `` roslaunch slam_2d one_base.launch ``
 ## 开始建图
