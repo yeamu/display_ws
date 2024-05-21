@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find slam_2d)/launch/one_base.launch"/>
+    <node name="move_node" pkg="move_pkg" type="move_node.py" output="screen" />
+</launch>

@@ -1,16 +1,25 @@
-cmake_minimum_required(VERSION 3.0.2)
-project(move_pkg)
+cmake_minimum_required(VERSION 2.8.3)
+project(ldlidar_stl_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+set (IS_WARLL "OFF") # "ON" or "OFF"
+if(${IS_WARLL} MATCHES "OFF")
+  set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+  message(STATUS "optional:-std=c++11")
+else()
+  set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wextra ${CMAKE_CXX_FLAGS}")
+  message(STATUS "optional:-std=c++11 -Wall -Wextra ")
+endif()
+
+# set (CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS}  -g ")
+# set (CMAKE_VERBOSE_MAKEFILE ON)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-  roscpp
-  rospy
+    roscpp
+    sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -70,7 +79,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   geometry_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -104,8 +113,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES move_pkg
-#  CATKIN_DEPENDS geometry_msgs roscpp rospy
+#  LIBRARIES ldlidar
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -116,13 +125,36 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
+${CMAKE_CURRENT_SOURCE_DIR}/include
+${CMAKE_CURRENT_SOURCE_DIR}/include/ldlidar_driver/include
+${catkin_INCLUDE_DIRS}
 )
+
+## Get current directory files
+#aux_source_directory(. file_name)
+#if(file_name MATCHES "slbf.cpp")
+#  add_definitions(-D"USE_SLBF")
+#  message("-- #define USE_SLBF")
+#endif()
+
+#if(file_name MATCHES "slbi.cpp")
+#  add_definitions(-D"USE_SLBI")
+#  message("-- #define USE_SLBI")
+#endif()
+
+file(GLOB  LDLIDAR_DRIVER_SRC ${CMAKE_CURRENT_SOURCE_DIR}/include/ldlidar_driver/*.cpp)
+file(GLOB  MAIN_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/publish_node/*.cpp)
+file(GLOB  LISTEN_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/listen_node/*.cpp)
+
+add_executable(${PROJECT_NAME}_node  ${MAIN_SRC} ${LDLIDAR_DRIVER_SRC})
+target_link_libraries(${PROJECT_NAME}_node pthread ${catkin_LIBRARIES})
+
+add_executable(${PROJECT_NAME}_listen_node  ${LISTEN_SRC})
+target_link_libraries(${PROJECT_NAME}_listen_node  ${catkin_LIBRARIES})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/move_pkg.cpp
+#   src/${PROJECT_NAME}/ldlidar.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -133,7 +165,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/move_pkg_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/ldlidar_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -159,23 +191,16 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
+# install(PROGRAMS
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-## Mark executables for installation
-## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
-# install(TARGETS ${PROJECT_NAME}_node
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark libraries for installation
-## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
-# install(TARGETS ${PROJECT_NAME}
+## Mark executables and/or libraries for installation
+# install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
 ## Mark cpp header files for installation
@@ -197,7 +222,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_move_pkg.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_ldlidar.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
